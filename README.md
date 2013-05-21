@@ -1,15 +1,14 @@
-ActionBarSherlock Library
+Volley Test Project
 =========================
+This is a sample android application using [Volley library][1].
 
-This folder contains the main library which should be linked against as an
-Android library project in your application.
+How to install
+------
+1. git clone this project
+2. Import actionbarsherlock into your eclipse as an existing Android project 
+3. Clean build the actionbarsherlock project on eclipse
+4. Import VolleySample into your eclipse as an existing Android project
+5. Clean build the VolleySample project on eclipse
+6. Make sure the actionbarsherlock libray project is refered from VolleySample project
 
-For more information see the "Including In Your Project" section of the
-[usage page][1].
-
-
-
-
-
-
- [1]: http://actionbarsherlock.com/usage.html
+ [1]: https://android.googlesource.com/platform/frameworks/volley
