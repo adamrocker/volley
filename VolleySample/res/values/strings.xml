@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">VolleySample</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="json_error">Invalid data format</string>
+    <string name="server_error">Server Error. Please access after a while.</string>
+    <string name="connection_error">Network connection Error. Please check your network status and its strength.</string>
+
+</resources>

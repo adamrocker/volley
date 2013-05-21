@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/contentsWrapper" >
+
+    <RelativeLayout
+        android:id="@+id/left"
+        style="@style/contentWrapper"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="4dp" >
+
+        <ImageView
+            android:id="@+id/photo1"
+            style="@style/photoPicture"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/photo_text1"
+            style="@style/photoText"
+            android:layout_alignBottom="@+id/photo1"
+            android:text="July 4th, 2012" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/center"
+        style="@style/contentWrapper"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/left"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" >
+
+        <ImageView
+            android:id="@+id/photo2"
+            style="@style/photoPicture"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/photo_text2"
+            style="@style/photoText"
+            android:layout_alignBottom="@+id/photo2"
+            android:text="July 4th, 2013" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/right"
+        style="@style/contentWrapper"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/center"
+        android:paddingLeft="4dp"
+        android:paddingRight="8dp" >
+
+        <ImageView
+            android:id="@+id/photo3"
+            style="@style/photoPicture"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/photo_text3"
+            style="@style/photoText"
+            android:layout_alignBottom="@+id/photo3"
+            android:text="July 4th, 2013" />
+    </RelativeLayout>
+
+</RelativeLayout>
