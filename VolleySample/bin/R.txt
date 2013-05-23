@@ -109,10 +109,11 @@ int color abs__bright_foreground_disabled_holo_dark 0x7f070004
 int color abs__bright_foreground_disabled_holo_light 0x7f070005
 int color abs__bright_foreground_holo_dark 0x7f070002
 int color abs__bright_foreground_holo_light 0x7f070003
-int color abs__primary_text_disable_only_holo_dark 0x7f070006
-int color abs__primary_text_disable_only_holo_light 0x7f070007
-int color abs__primary_text_holo_dark 0x7f070008
-int color abs__primary_text_holo_light 0x7f070009
+int color abs__primary_text_disable_only_holo_dark 0x7f070007
+int color abs__primary_text_disable_only_holo_light 0x7f070008
+int color abs__primary_text_holo_dark 0x7f070009
+int color abs__primary_text_holo_light 0x7f07000a
+int color window_background 0x7f070006
 int dimen abs__action_bar_default_height 0x7f080001
 int dimen abs__action_bar_icon_vertical_padding 0x7f080002
 int dimen abs__action_bar_subtitle_bottom_margin 0x7f080006
@@ -246,6 +247,7 @@ int drawable behind_mapdivider_b 0x7f020071
 int drawable ic_action_refresh 0x7f020072
 int drawable ic_launcher 0x7f020073
 int drawable img 0x7f020074
+int drawable img_bg 0x7f020075
 int id abs__action_bar 0x7f050020
 int id abs__action_bar_container 0x7f05001f
 int id abs__action_bar_subtitle 0x7f050011

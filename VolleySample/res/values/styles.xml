@@ -33,6 +33,7 @@
         <item name="android:layout_width">@dimen/photo_size</item>
         <item name="android:layout_height">@dimen/photo_size</item>
         <item name="android:scaleType">fitXY</item>
+        <item name="android:background">@drawable/img_bg</item>
     </style>
     <style name="photoText">
         <item name="android:layout_width">@dimen/photo_size</item>

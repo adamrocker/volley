@@ -689,10 +689,11 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f070005;
         public static final int abs__bright_foreground_holo_dark=0x7f070002;
         public static final int abs__bright_foreground_holo_light=0x7f070003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f070006;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f070007;
-        public static final int abs__primary_text_holo_dark=0x7f070008;
-        public static final int abs__primary_text_holo_light=0x7f070009;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f070007;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f070008;
+        public static final int abs__primary_text_holo_dark=0x7f070009;
+        public static final int abs__primary_text_holo_light=0x7f07000a;
+        public static final int window_background=0x7f070006;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -911,6 +912,7 @@ containing a value of this type.
         public static final int ic_action_refresh=0x7f020072;
         public static final int ic_launcher=0x7f020073;
         public static final int img=0x7f020074;
+        public static final int img_bg=0x7f020075;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050020;

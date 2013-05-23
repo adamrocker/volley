@@ -36,7 +36,7 @@ import android.widget.Toast;
 
 public class MainActivity extends SherlockActivity {
 
-    private static final String INSTAGRAM_CLIENT_ID = "<< YOUR INSTAGRAM'S CLIENT ID >>";
+    private static final String INSTAGRAM_CLIENT_ID = "2954ec574e53454abefc82073af058c2";
     private static final Object TAG = new Object();
     private static final String LOG = "VOLLEY-SAMPLE";
     private RequestQueue mVolley;
