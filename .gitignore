@@ -1,4 +1,4 @@
-bin
-gen
-volley
+VolleySample/bin
+VolleySample/gen
+volley/
 .DS_Store
