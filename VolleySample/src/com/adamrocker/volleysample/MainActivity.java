@@ -9,18 +9,21 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageCache;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.adamrocker.volleysample.R;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,13 +39,14 @@ import android.widget.Toast;
 
 public class MainActivity extends SherlockActivity {
 
-    private static final String INSTAGRAM_CLIENT_ID = "<< YOUR INSTAGRAM CLIENT ID >>";
+    private static final String INSTAGRAM_CLIENT_ID = "<< YOUR INSTAGRAM CLIENT-ID >>";
     private static final Object TAG = new Object();
     private static final String LOG = "VOLLEY-SAMPLE";
-    private RequestQueue mVolley;
+    private RequestQueue mQueue;
     private LinearLayout mBase;
     private MenuItem mRefreshMenu;
     private volatile int mTotalLoadedImgs = 0;
+    private ImageLoader mImageLoader;
 
     private void toast(int id) {
         String text = getResources().getString(id);
@@ -76,8 +80,17 @@ public class MainActivity extends SherlockActivity {
         setContentView(R.layout.photo_stream);
 
         mBase = (LinearLayout) findViewById(R.id.base);
-        mVolley = Volley.newRequestQueue(getApplicationContext());// thread
-                                                                  // pool(4)
+        mQueue = Volley.newRequestQueue(getApplicationContext());// thread
+                                                                 // pool(4)
+        mImageLoader = new ImageLoader(mQueue, new ImageCache() {
+            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
+            public void putBitmap(String url, Bitmap bitmap) {
+                mCache.put(url, bitmap);
+            }
+            public Bitmap getBitmap(String url) {
+                return mCache.get(url);
+            }
+        });
         startLoadingAnim();
         refreshDatas();
     }
@@ -104,10 +117,11 @@ public class MainActivity extends SherlockActivity {
                     }
                 });
         jsonRequet.setTag(TAG);
-        mVolley.add(jsonRequet);
+        mQueue.add(jsonRequet);
     }
 
     private int parseJson(JSONObject root) throws JSONException {
+        boolean useNetworkImageView = true;
         int code = root.getJSONObject("meta").getInt("code");
         if (code == 200) {
             int[] resTexts = { R.id.photo_text1, R.id.photo_text2,
@@ -141,50 +155,62 @@ public class MainActivity extends SherlockActivity {
                 String imgUrl = json.getJSONObject("images")
                         .getJSONObject("low_resolution").getString("url");
 
-                ImageView iv = (ImageView) rl.findViewById(resImgs[resIndex]);
-                if (iv == null) {
+                NetworkImageView niv = (NetworkImageView) rl
+                        .findViewById(resImgs[resIndex]);
+                if (niv == null) {
                     rl = (RelativeLayout) inf
                             .inflate(R.layout.photo_item, null);
                     mBase.addView(rl);
                     resIndex = 0;
-                    iv = (ImageView) rl.findViewById(resImgs[resIndex]);
+                    niv = (NetworkImageView) rl.findViewById(resImgs[resIndex]);
                 }
-                final ImageView imageView = iv;
+
                 TextView tv = (TextView) rl.findViewById(resTexts[resIndex]);
                 tv.setText(text);
                 tv.invalidate();
 
-                ImageRequest request = new ImageRequest(imgUrl,
-                        new Listener<Bitmap>() {
-                            @Override
-                            public void onResponse(Bitmap bm) {
-                                imageView.setImageBitmap(bm);
-                                mTotalLoadedImgs++;
-                                if (len == mTotalLoadedImgs) {
-                                    stopLoadingAnim();
-                                    mTotalLoadedImgs = 0;
-                                }
-                            }
-                        }, 0, 0, Config.ARGB_8888, new ErrorListener() {
-                            public void onErrorResponse(VolleyError arg0) {
-                                arg0.printStackTrace();
-                                mTotalLoadedImgs++;
-                                if (len == mTotalLoadedImgs) {
-                                    stopLoadingAnim();
-                                    mTotalLoadedImgs = 0;
-                                }
-                            }
-                        });
-                request.setTag(TAG);
-                mVolley.add(request);
+                if (useNetworkImageView) {
+                    // in case of using NetworkImageView
+                    niv.setImageUrl(imgUrl, mImageLoader);
+                } else {
+                    requestImage(niv, imgUrl, len);
+                }
+            }
+            if (useNetworkImageView) {
+                stopLoadingAnim();
             }
         }
         return code;
     }
 
+    private void requestImage(final ImageView niv, final String imgUrl, final int len) {
+        ImageRequest request = new ImageRequest(imgUrl, new Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap bm) {
+                niv.setImageBitmap(bm);
+                mTotalLoadedImgs++;
+                if (len == mTotalLoadedImgs) {
+                    stopLoadingAnim();
+                    mTotalLoadedImgs = 0;
+                }
+            }
+        }, 0, 0, Config.ARGB_8888, new ErrorListener() {
+            public void onErrorResponse(VolleyError arg0) {
+                arg0.printStackTrace();
+                mTotalLoadedImgs++;
+                if (len == mTotalLoadedImgs) {
+                    stopLoadingAnim();
+                    mTotalLoadedImgs = 0;
+                }
+            }
+        });
+        request.setTag(TAG);
+        mQueue.add(request);
+    }
+
     public void onStop() {
         super.onStop();
-        mVolley.cancelAll(TAG);
+        mQueue.cancelAll(TAG);
     }
 
     @Override
@@ -197,7 +223,7 @@ public class MainActivity extends SherlockActivity {
         iv.setId(R.id.action_refresh);
         iv.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                mVolley.cancelAll(TAG);
+                mQueue.cancelAll(TAG);
                 mBase.removeAllViews();
                 stopLoadingAnim();
                 startLoadingAnim();

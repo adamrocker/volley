@@ -10,7 +10,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="4dp" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/photo1"
             style="@style/photoPicture"
             android:layout_alignParentLeft="true"
@@ -30,7 +30,7 @@
         android:paddingLeft="4dp"
         android:paddingRight="8dp" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/photo2"
             style="@style/photoPicture"
             android:layout_alignParentLeft="true"
