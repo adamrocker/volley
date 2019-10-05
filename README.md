@@ -9,7 +9,7 @@ How to install
 3. Clean build the actionbarsherlock project on eclipse
 4. Import VolleySample into your eclipse as an existing Android project
 5. Clean build the VolleySample project on eclipse
-6. Make sure the actionbarsherlock libray project is refered from VolleySample project
+6. Make sure the actionbarsherlock libray project is referred from VolleySample project
 
 What's Volley
 ------
